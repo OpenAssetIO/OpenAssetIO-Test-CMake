@@ -18,7 +18,7 @@ jobs:
     container:
       image: ghcr.io/openassetio/openassetio-build
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Build
         uses: ./.github/build_openassetio
 
@@ -28,7 +28,7 @@ jobs:
     container:
       image: ghcr.io/openassetio/openassetio-build
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Build
         uses: ./.github/build_openassetio_mediacreation
 
@@ -39,7 +39,7 @@ jobs:
       image: aswf/ci-vfxall:2022-clang14.3
     needs: [build-openassetio, build-openassetio-mediacreation]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Get OpenAssetIO
         uses: actions/download-artifact@v3
@@ -72,7 +72,7 @@ jobs:
       image: ghcr.io/openassetio/openassetio-build
     needs: [build-openassetio-mediacreation]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Get OpenAssetIO-MediaCreation
         uses: actions/download-artifact@v3
@@ -105,7 +105,7 @@ jobs:
       image: aswf/ci-vfxall:2022-clang14.3
     needs: [build-openassetio]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Get OpenAssetIO
         uses: actions/download-artifact@v3
@@ -139,7 +139,7 @@ jobs:
     container:
       image: ghcr.io/openassetio/openassetio-build
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install Traitgen
         run: |
