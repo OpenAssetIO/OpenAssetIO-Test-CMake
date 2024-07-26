@@ -7,7 +7,7 @@ v1.0.0-alpha.x
 ### Breaking Changes
 
 * Update to use non-deprecated `TraitsData` path/namespace.
-  [#13](https://github.com/OpenAssetIO/OpenAssetIO-Test-CMake/pull/13)
+  [OpenAssetIO#1311](https://github.com/OpenAssetIO/OpenAssetIO/issues/1311)
 
 ### New Features
 
