@@ -7,13 +7,6 @@ name: Test
 on:
   pull_request:
 
-env:
-  # Buy some more time to use the deprecated Node 16 (needed for GLIBC
-  # version)
-  # Upgrading to the CY23 Docker images will solve this longer term. See
-  # https://github.com/OpenAssetIO/OpenAssetIO/issues/984#issuecomment-2210792734
-  ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
-
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -43,7 +36,7 @@ jobs:
     name: Test (OpenAssetIO as package, MediaCreation as package)
     runs-on: ubuntu-latest
     container:
-      image: aswf/ci-vfxall:2022-clang14.3
+      image: aswf/ci-base:2024
     needs: [build-openassetio, build-openassetio-mediacreation]
     steps:
       - uses: actions/checkout@v3
@@ -109,7 +102,7 @@ jobs:
     name: Test (OpenAssetIO as package, MediaCreation as subproject)
     runs-on: ubuntu-latest
     container:
-      image: aswf/ci-vfxall:2022-clang14.3
+      image: aswf/ci-base:2024
     needs: [build-openassetio]
     steps:
       - uses: actions/checkout@v3

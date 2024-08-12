@@ -31,16 +31,8 @@ option(OPENASSETIO_MEDIACREATIONTEST_ENABLE_SUBPROJECT
 option(OPENASSETIOTEST_ENABLE_PYTHON "Test Python bindings" ON)
 option(OPENASSETIOTEST_ENABLE_C "Test C bindings" ON)
 
-if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND
-    CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 5.0)
-    option(OPENASSETIOTEST_GLIBCXX_USE_CXX11_ABI "For gcc, use the new C++11 library ABI" OFF)
-endif ()
-
 if (CMAKE_TOOLCHAIN_FILE)
     message(STATUS "Using toolchain file                = ${CMAKE_TOOLCHAIN_FILE}")
-endif ()
-if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    message(STATUS "New C++11 ABI for GCC               = ${OPENASSETIOTEST_GLIBCXX_USE_CXX11_ABI}")
 endif ()
 message(STATUS "Testing OpenAssetIO as a subproject = ${OPENASSETIOTEST_ENABLE_OPENASSETIO_SUBPROJECT}")
 message(STATUS "Testing OpenAssetIO-MediaCreation as a subproject = "
@@ -100,15 +92,6 @@ add_test(cpp.core test.cpp.core)
 target_link_libraries(test.cpp.core PRIVATE OpenAssetIO::openassetio-core)
 target_compile_features(test.cpp.core PRIVATE cxx_std_17)
 
-# GCC's C++11 ABI toggle must match OpenAssetIO's settings.
-if (DEFINED OPENASSETIOTEST_GLIBCXX_USE_CXX11_ABI)
-    if (OPENASSETIOTEST_GLIBCXX_USE_CXX11_ABI)
-        target_compile_definitions(test.cpp.core PRIVATE _GLIBCXX_USE_CXX11_ABI=1)
-    else ()
-        target_compile_definitions(test.cpp.core PRIVATE _GLIBCXX_USE_CXX11_ABI=0)
-    endif ()
-endif ()
-
 if (WIN32 AND DEFINED OpenAssetIO_BINARY_DIR)
     set_tests_properties(cpp.core PROPERTIES ENVIRONMENT "PATH=${OpenAssetIO_BINARY_DIR_NATIVE}")
 endif ()
@@ -120,15 +103,6 @@ add_executable(test.cpp.mediacreation src/test.mediacreation.cpp)
 add_test(cpp.mediacreation test.cpp.mediacreation)
 target_link_libraries(test.cpp.mediacreation PRIVATE OpenAssetIO::openassetio-core OpenAssetIO-MediaCreation::openassetio-mediacreation)
 target_compile_features(test.cpp.mediacreation PRIVATE cxx_std_17)
-
-# GCC's C++11 ABI toggle must match OpenAssetIO's settings.
-if (DEFINED OPENASSETIOTEST_GLIBCXX_USE_CXX11_ABI)
-    if (OPENASSETIOTEST_GLIBCXX_USE_CXX11_ABI)
-        target_compile_definitions(test.cpp.mediacreation PRIVATE _GLIBCXX_USE_CXX11_ABI=1)
-    else ()
-        target_compile_definitions(test.cpp.mediacreation PRIVATE _GLIBCXX_USE_CXX11_ABI=0)
-    endif ()
-endif ()
 
 if (WIN32 AND DEFINED OpenAssetIO_BINARY_DIR)
     set_tests_properties(cpp.mediacreation PROPERTIES ENVIRONMENT "PATH=${OpenAssetIO_BINARY_DIR_NATIVE}")
@@ -225,9 +199,9 @@ if (OPENASSETIOTEST_ENABLE_PYTHON)
     # Fix library search path on MacOS.
     if (APPLE)
         # The `Python::Python` target's link options are set to e.g
-        # `@rpath/Python.framework/Versions/3.9/Python` but all our
+        # `@rpath/Python.framework/Versions/3.10/Python` but all our
         # target's (CMake generated) @rpaths already contain
-        # `Python.framework/Versions/3.9`. So add another RPATH with
+        # `Python.framework/Versions/3.10`. So add another RPATH with
         # the framework subdirectories stripped. This then allows our
         # test target to find the Python library.
         set_target_properties(test.python.bridge PROPERTIES BUILD_RPATH ${Python_PREFIX}/../../..)
