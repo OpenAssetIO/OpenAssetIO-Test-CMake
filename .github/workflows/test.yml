@@ -74,6 +74,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # TODO(DF): Remove once fixed upstream. Checkout in a container
+      # doesn't use the container's user (appears to use 1001 rather
+      # than root 0) and safe.directory setting is not applied properly.
+      # So submodule update fails.
+      # https://github.com/actions/checkout/issues/1169
+      # The check itself was added to git in
+      # https://github.com/git/git/commit/f4aa8c8bb11dae6e769cd930565173808cbb69c8
+      - name: Work around actions/checkout ownership bug
+        run: |
+          git config --system --add safe.directory $(pwd)
+
       - name: Get OpenAssetIO-MediaCreation
         uses: actions/download-artifact@v3
         with:
@@ -106,6 +117,17 @@ jobs:
     needs: [build-openassetio]
     steps:
       - uses: actions/checkout@v4
+
+      # TODO(DF): Remove once fixed upstream. Checkout in a container
+      # doesn't use the container's user (appears to use 1001 rather
+      # than root 0) and safe.directory setting is not applied properly.
+      # So submodule update fails.
+      # https://github.com/actions/checkout/issues/1169
+      # The check itself was added to git in
+      # https://github.com/git/git/commit/f4aa8c8bb11dae6e769cd930565173808cbb69c8
+      - name: Work around actions/checkout ownership bug
+        run: |
+          git config --system --add safe.directory $(pwd)
 
       - name: Get OpenAssetIO
         uses: actions/download-artifact@v3
@@ -140,6 +162,17 @@ jobs:
       image: ghcr.io/openassetio/openassetio-build
     steps:
       - uses: actions/checkout@v4
+
+      # TODO(DF): Remove once fixed upstream. Checkout in a container
+      # doesn't use the container's user (appears to use 1001 rather
+      # than root 0) and safe.directory setting is not applied properly.
+      # So submodule update fails.
+      # https://github.com/actions/checkout/issues/1169
+      # The check itself was added to git in
+      # https://github.com/git/git/commit/f4aa8c8bb11dae6e769cd930565173808cbb69c8
+      - name: Work around actions/checkout ownership bug
+        run: |
+          git config --system --add safe.directory $(pwd)
 
       - name: Install Traitgen
         run: |
