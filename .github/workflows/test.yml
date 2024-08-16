@@ -7,13 +7,6 @@ name: Test
 on:
   pull_request:
 
-env:
-  # Buy some more time to use the deprecated Node 16 (needed for GLIBC
-  # version)
-  # Upgrading to the CY23 Docker images will solve this longer term. See
-  # https://github.com/OpenAssetIO/OpenAssetIO/issues/984#issuecomment-2210792734
-  ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
-
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -25,7 +18,7 @@ jobs:
     container:
       image: ghcr.io/openassetio/openassetio-build
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Build
         uses: ./.github/build_openassetio
 
@@ -35,7 +28,7 @@ jobs:
     container:
       image: ghcr.io/openassetio/openassetio-build
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Build
         uses: ./.github/build_openassetio_mediacreation
 
@@ -43,10 +36,10 @@ jobs:
     name: Test (OpenAssetIO as package, MediaCreation as package)
     runs-on: ubuntu-latest
     container:
-      image: aswf/ci-vfxall:2022-clang14.3
+      image: aswf/ci-base:2024
     needs: [build-openassetio, build-openassetio-mediacreation]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Get OpenAssetIO
         uses: actions/download-artifact@v3
@@ -79,7 +72,18 @@ jobs:
       image: ghcr.io/openassetio/openassetio-build
     needs: [build-openassetio-mediacreation]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+
+      # TODO(DF): Remove once fixed upstream. Checkout in a container
+      # doesn't use the container's user (appears to use 1001 rather
+      # than root 0) and safe.directory setting is not applied properly.
+      # So submodule update fails.
+      # https://github.com/actions/checkout/issues/1169
+      # The check itself was added to git in
+      # https://github.com/git/git/commit/f4aa8c8bb11dae6e769cd930565173808cbb69c8
+      - name: Work around actions/checkout ownership bug
+        run: |
+          git config --system --add safe.directory $(pwd)
 
       - name: Get OpenAssetIO-MediaCreation
         uses: actions/download-artifact@v3
@@ -109,10 +113,21 @@ jobs:
     name: Test (OpenAssetIO as package, MediaCreation as subproject)
     runs-on: ubuntu-latest
     container:
-      image: aswf/ci-vfxall:2022-clang14.3
+      image: aswf/ci-base:2024
     needs: [build-openassetio]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+
+      # TODO(DF): Remove once fixed upstream. Checkout in a container
+      # doesn't use the container's user (appears to use 1001 rather
+      # than root 0) and safe.directory setting is not applied properly.
+      # So submodule update fails.
+      # https://github.com/actions/checkout/issues/1169
+      # The check itself was added to git in
+      # https://github.com/git/git/commit/f4aa8c8bb11dae6e769cd930565173808cbb69c8
+      - name: Work around actions/checkout ownership bug
+        run: |
+          git config --system --add safe.directory $(pwd)
 
       - name: Get OpenAssetIO
         uses: actions/download-artifact@v3
@@ -146,7 +161,18 @@ jobs:
     container:
       image: ghcr.io/openassetio/openassetio-build
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+
+      # TODO(DF): Remove once fixed upstream. Checkout in a container
+      # doesn't use the container's user (appears to use 1001 rather
+      # than root 0) and safe.directory setting is not applied properly.
+      # So submodule update fails.
+      # https://github.com/actions/checkout/issues/1169
+      # The check itself was added to git in
+      # https://github.com/git/git/commit/f4aa8c8bb11dae6e769cd930565173808cbb69c8
+      - name: Work around actions/checkout ownership bug
+        run: |
+          git config --system --add safe.directory $(pwd)
 
       - name: Install Traitgen
         run: |

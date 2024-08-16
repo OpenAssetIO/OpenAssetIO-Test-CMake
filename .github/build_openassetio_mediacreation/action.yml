@@ -11,7 +11,7 @@ runs:
   using: "composite"
   steps:
     - name: Checkout OpenAssetIO-Mediacreation
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         repository: OpenAssetIO/OpenAssetIO-MediaCreation
         path: openassetio-mediacreation-checkout
