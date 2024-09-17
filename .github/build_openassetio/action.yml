@@ -24,7 +24,7 @@ runs:
         cmake -G Ninja -S . -DOPENASSETIO_ENABLE_C="ON" -B build
         cmake --build build
         cmake --install build
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: OpenAssetIO Build
         path: openassetio-checkout/build/dist
