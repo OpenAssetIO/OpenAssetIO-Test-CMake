@@ -42,13 +42,13 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Get OpenAssetIO
-        uses: actions/download-artifact@v4.1.9
+        uses: actions/download-artifact@v4.2.1
         with:
           name: OpenAssetIO Build
           path: ${{ github.workspace }}/openassetio-build
 
       - name: Get OpenAssetIO-MediaCreation
-        uses: actions/download-artifact@v4.1.9
+        uses: actions/download-artifact@v4.2.1
         with:
           name: OpenAssetIO MediaCreation Build
           path: ${{ github.workspace }}/openassetio-mediacreation-build
@@ -86,7 +86,7 @@ jobs:
           git config --system --add safe.directory $(pwd)
 
       - name: Get OpenAssetIO-MediaCreation
-        uses: actions/download-artifact@v4.1.9
+        uses: actions/download-artifact@v4.2.1
         with:
           name: OpenAssetIO MediaCreation Build
           path: ./openassetio-mediacreation-build
@@ -130,7 +130,7 @@ jobs:
           git config --system --add safe.directory $(pwd)
 
       - name: Get OpenAssetIO
-        uses: actions/download-artifact@v4.1.9
+        uses: actions/download-artifact@v4.2.1
         with:
           name: OpenAssetIO Build
           path: ./openassetio-build
