@@ -18,7 +18,7 @@ jobs:
     container:
       image: ghcr.io/openassetio/openassetio-build
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Build
         uses: ./.github/build_openassetio
 
@@ -28,7 +28,7 @@ jobs:
     container:
       image: ghcr.io/openassetio/openassetio-build
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Build
         uses: ./.github/build_openassetio_mediacreation
 
@@ -39,7 +39,7 @@ jobs:
       image: aswf/ci-base:2024
     needs: [build-openassetio, build-openassetio-mediacreation]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Get OpenAssetIO
         uses: actions/download-artifact@v5.0.0
@@ -72,7 +72,7 @@ jobs:
       image: ghcr.io/openassetio/openassetio-build
     needs: [build-openassetio-mediacreation]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       # TODO(DF): Remove once fixed upstream. Checkout in a container
       # doesn't use the container's user (appears to use 1001 rather
@@ -116,7 +116,7 @@ jobs:
       image: aswf/ci-base:2024
     needs: [build-openassetio]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       # TODO(DF): Remove once fixed upstream. Checkout in a container
       # doesn't use the container's user (appears to use 1001 rather
@@ -161,7 +161,7 @@ jobs:
     container:
       image: ghcr.io/openassetio/openassetio-build
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       # TODO(DF): Remove once fixed upstream. Checkout in a container
       # doesn't use the container's user (appears to use 1001 rather
